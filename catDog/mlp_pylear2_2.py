@@ -16,37 +16,20 @@ def to_one_hot(l):
         out[n, i] = 1.
     return out
 
-'''train = pickle.load(open('fcTRAIN_CATD_v22_10000.pkl', 'rb'))
-X_train,Y_train=train['X'], train['Y']
-Y_train = to_one_hot(Y_train)
 
-valid = pickle.load(open('fcVALID_CATD_v22_1500.pkl', 'rb'))
-X_valid,Y_valid=valid['X'], valid['Y']
-Y_valid = to_one_hot(Y_valid)
-'''
 test = pickle.load(open('TEST5000CDpairsfrom1000.pkl', 'rb'))
 X_test,Y_test=test['X'], test['Y']
 Y_test = to_one_hot(Y_test)
 
 train = pickle.load(open('TRAIN30000from1000.pkl', 'rb'))
 x,y=train['X'], train['Y']
-
-print x.shape
-print y.shape
 y = to_one_hot(y)
+
 print y
 print y.shape
 
 X_train,Y_train=x[:20000],y[:20000]
 X_valid,Y_valid=x[20000:25000], y[20000:25000]
-#X_test,Y_test=x[25000:],y[25000:]
-
-in_space = VectorSpace(dim=X_train.shape[1])
-full = DenseDesignMatrix(X=X_train, y=Y_train)
-
-
-#filenames = pickle.load(open('saved_filenames_v2.pkl', 'rb'))
-
 
 in_space = VectorSpace(dim=X_train.shape[1])
 full = DenseDesignMatrix(X=X_train, y=Y_train)
@@ -114,26 +97,6 @@ experiment = Train(dataset=full,
                    algorithm=trainer,
                    extensions=[saveBest, velocity, decay])
                    
-
-
-'''
-splitter = round(len(x)*0.7)
-X_train, X_ = x[:splitter], x[splitter:]
-Y_train, Y_ = y[:splitter], y[splitter:]
-splitter2 = round(len(X_)*0.5)
-X_valid, X_test=X_[:splitter2], X_[splitter2:]
-Y_valid, Y_test=Y_[:splitter2], Y_[splitter2:]
-print 'test size', len(X_test)
-
-
-
-pickle.dump(X_train, open('saved_feat_x_train_v2.pkl', 'wb'))
-pickle.dump(X_test, open('saved_feat_x_test_v2.pkl', 'wb'))
-pickle.dump(y_train, open('saved_feat_y_train_v2.pkl', 'wb'))
-pickle.dump(y_test, open('saved_feat_y_test_v2.pkl', 'wb'))
-'''
-
-
 
 experiment.main_loop()
 
