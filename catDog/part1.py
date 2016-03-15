@@ -1,22 +1,15 @@
 #place this file is expected to be in {caffe_root}/examples
 import numpy as np
-import matplotlib.pyplot as plt
-
-
-
-caffe_root = '../../'
-import sys
-sys.path.insert(0, caffe_root + 'python')
-
-import caffe
-
-
 import logging
-import numpy as np
 from glob import glob
 import matplotlib.image as mpimg
 from random import shuffle
 import pickle
+import matplotlib.pyplot as plt
+caffe_root = '../../'
+import sys
+sys.path.insert(0, caffe_root + 'python')
+import caffe
 
 # Set the right path to your model definition file, pretrained model weights,
 # and the image you would like to classify.
@@ -38,6 +31,7 @@ import os
 def activate(net, im):
     input_image = caffe.io.load_image(im)
     # Resize the image to the standard (256, 256) and oversample net input sized crops.
+    #Crop images into the four corners, center, and their mirrored versions.
     input_oversampled = caffe.io.oversample([caffe.io.resize_image(input_image, net.image_dims)], net.crop_dims)
     # 'data' is the input blob name in the model definition, so we preprocess for that input.
     caffe_input = np.asarray([net.transformer.preprocess('data', in_) for in_ in input_oversampled])
